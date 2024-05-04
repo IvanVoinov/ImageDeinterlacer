@@ -1,44 +1,36 @@
 cmake_minimum_required(VERSION 3.12)
 project(picture_deinterlacer VERSION 0.1.0 LANGUAGES C CXX)
 
-# include(FetchContent)
 
-# FetchContent_Declare(
-#     lib_jpeg
-#     GIT_REPOSITORY https://github.com/LuaDist/libjpeg.git
-#     GIT_TAG        6c0fcb8ddee365e7abc4d332662b06900612e923
-#     OVERRIDE_FIND_PACKAGE
-# )
+include(ExternalProject)
 
-# set(FETCHCONTENT_BASE_DIR ${PROJECT_SOURCE_DIR}/third_party CACHE PATH "Missing description." FORCE)
+# Download and build libjpeg as an external project
+ExternalProject_Add(
+    libjpeg
+    GIT_REPOSITORY https://github.com/LuaDist/libjpeg.git
+    GIT_TAG master  # Or specify a specific version/tag
+    PREFIX ${CMAKE_BINARY_DIR}/libjpeg
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/libjpeg
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+)
 
-# find_package(lib_jpeg PATHS ${PROJECT_SOURCE_DIR})
-
-# add_executable(picture_deinterlacer main.cpp)
-
-# target_link_libraries(picture_deinterlacer PRIVATE jpeg)
-
-
-set(REPO_URL "https://github.com/LuaDist/libjpeg.git")
-set(REPO_DIR ${CMAKE_SOURCE_DIR}/third_party/lib_jpeg)
-
-if(NOT EXISTS ${REPO_DIR})
-    execute_process(
-        COMMAND git clone ${REPO_URL} ${REPO_DIR}
-        RESULT_VARIABLE GIT_RESULT
-    )
-
-    if (NOT GIT_RESULT EQUAL "0")
-        message(FATAL_ERROR "Failed to clone libjpeg repo.")
-    endif()
-endif()
-
+# Define a library or executable target for your project
 add_executable(picture_deinterlacer
     main.cpp
     source/private/FileManager.cpp
     source/private/ImageProcessor.cpp
 )
 
-add_subdirectory(${REPO_DIR})
+# Specify the include directory for libjpeg
+ExternalProject_Get_Property(libjpeg SOURCE_DIR)
+target_include_directories(picture_deinterlacer PRIVATE ${SOURCE_DIR})
 
-target_link_libraries(picture_deinterlacer jpeg)
+# Specify the link directory for libjpeg
+ExternalProject_Get_Property(libjpeg BINARY_DIR)
+target_link_directories(picture_deinterlacer PRIVATE ${BINARY_DIR})
+
+# Link your project against libjpeg
+target_link_libraries(picture_deinterlacer PRIVATE jpeg)
+
+# Specify dependencies for your executable (optional)
+add_dependencies(picture_deinterlacer libjpeg)

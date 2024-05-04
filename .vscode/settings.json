@@ -4,6 +4,9 @@
         "fstream": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "setjmp.h": "c",
+        "jpeglib.h": "c",
+        "jerror.h": "c"
     }
 }
