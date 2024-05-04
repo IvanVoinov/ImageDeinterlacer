@@ -33,7 +33,12 @@ if(NOT EXISTS ${REPO_DIR})
     endif()
 endif()
 
-add_executable(picture_deinterlacer main.cpp)
+add_executable(picture_deinterlacer
+    main.cpp
+    source/private/FileManager.cpp
+    source/private/ImageProcessor.cpp
+)
 
-add_subdirectory(${REPO_DIR}) 
+add_subdirectory(${REPO_DIR})
+
 target_link_libraries(picture_deinterlacer jpeg)
