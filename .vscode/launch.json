@@ -7,7 +7,8 @@
             "request": "launch",
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
-            "args": ["-i", "input.txt", "-o", "output_directory"],
+            "args": ["-i", "/home/popos/repo/ImageDeinterlacer/interlaced.jpg",
+                     "-o", "/home/popos/repo/ImageDeinterlacer/"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
@@ -18,7 +19,7 @@
                     "value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
                 }
             ],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {
