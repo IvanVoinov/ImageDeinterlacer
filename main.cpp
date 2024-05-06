@@ -1,9 +1,7 @@
 #include <iostream>
-#include <fstream>
 
-// #include "third_party/lib_jpeg/jpeglib.h"
 #include "source/FileManager.h"
-// #include "source/ImageProcessor.h"
+#include "source/ImageProcessor.h"
 
 int main(int argc, char** argv) {
     
@@ -28,18 +26,13 @@ int main(int argc, char** argv) {
 
     CFileManager fileManager(inputFilePath, outputDirPath);
     if (fileManager.isFilesSuccessfullyOpened()) {
-        auto prt = fileManager.getInputFile();
-        std::cout << "main -> ptr get" << std::endl;
-
-        char line[256];
-        while (fgets(line, sizeof(line), prt)) {
-            fputs(line, stdout);
-        }
+        CImageProcessor imageProcessor;
+        imageProcessor.runDeinterlaceProcess(fileManager.getInputFile(), fileManager.getOutputFile());
     }
     else 
         return EXIT_FAILURE;
 
-    std::cout << "Hello, from picture_deinterlacer!\n";
+    std::cout << "Done. Check result at: " << outputDirPath  << "\n";
 
     return EXIT_SUCCESS;
 }

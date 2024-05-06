@@ -6,6 +6,7 @@ CFileManager::CFileManager(const std::string& inputPath, const std::string& outp
     : m_IsFilesSuccessfullyOpened(false)
 {
     // TODO think how to cut file name and add "Out" at the end
+    // and add check for absolute path
     //std::string outFilePath = outFilePath + "/" + inputPath.find_last_of("/")
     auto inputFile = fopen(inputPath.c_str(), "rb");
     auto outputFile = fopen(std::string(outputPath + "_out.jpg").c_str(), "wb");
