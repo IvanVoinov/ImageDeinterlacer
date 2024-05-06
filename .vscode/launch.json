@@ -7,7 +7,7 @@
             "request": "launch",
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
-            "args": ["-i", "/home/popos/repo/ImageDeinterlacer/interlaced.jpg",
+            "args": ["-i", "/home/popos/repo/ImageDeinterlacer/resource/interlaced.jpg",
                      "-o", "/home/popos/repo/ImageDeinterlacer/"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
