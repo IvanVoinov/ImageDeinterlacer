@@ -3,13 +3,24 @@
 #include "../FileManager.h"
 
 CFileManager::CFileManager(const std::string& inputPath, const std::string& outputPath)
-    : m_IsFilesSuccessfullyOpened(false)
+    : m_InputPath{inputPath}
+    , m_OutputPath{outputPath}
 {
-    // TODO think how to cut file name and add "Out" at the end
-    // and add check for absolute path
-    //std::string outFilePath = outFilePath + "/" + inputPath.find_last_of("/")
-    auto inputFile = fopen(inputPath.c_str(), "rb");
-    auto outputFile = fopen(std::string(outputPath + "_out.jpg").c_str(), "wb");
+}
+
+FILE* CFileManager::getInputFile() {
+    return m_InputFile.get();
+}
+
+FILE* CFileManager::getOutputFile() {
+    return m_OutputFile.get();
+}
+
+bool CFileManager::isFilesSuccessfullyOpened() {
+
+    bool isFilesOpened = false;
+    auto inputFile = fopen(m_InputPath.c_str(), "rb");
+    auto outputFile = fopen(std::string(m_OutputPath).c_str(), "wb");
 
     if (inputFile && outputFile)
     {
@@ -20,26 +31,18 @@ CFileManager::CFileManager(const std::string& inputPath, const std::string& outp
         m_OutputFile = std::move(deleted_unique_ptr(outputFile,
                                                     [](FILE *f)
                                                     { fclose(f); }));
-        m_IsFilesSuccessfullyOpened = true;
+        isFilesOpened = true;
 
         std::cout << "Files successfully opened! \n";
     }
 
     else {
-        m_IsFilesSuccessfullyOpened = false;
         if(!inputFile) {
-            perror(std::string("Failed to open file " + inputPath).c_str());
+            perror(std::string("Failed to open file " + m_InputPath + ". You may need to use absolute path").c_str());
         }
         if(!outputFile) {
-            perror(std::string("Failed to open file " + outputPath).c_str());
+            perror(std::string("Failed to open file " + m_OutputPath + ". You may need to use absolute path").c_str());
         }
     }
-}
-
-FILE* CFileManager::getInputFile() {
-    return m_InputFile.get();
-}
-
-FILE* CFileManager::getOutputFile() {
-    return m_OutputFile.get();
+    return isFilesOpened;
 }

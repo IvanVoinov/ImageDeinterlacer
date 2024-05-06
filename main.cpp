@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
     
     std::string inputFilePath{}, outputDirPath{};
     if(argc != 5) {
-        std::cout << "Wrong arguments. Usage: " << argv[0] << " -i <input file to process> -o <output directory>" << std::endl;
+        std::cout << "Wrong arguments. Usage: " << argv[0] << " -i <input file to process> -o <output directory>\n";
         return EXIT_FAILURE;
     }
 
@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
         }
         else if("-o" == std::string{argv[i]}) {
             outputDirPath = argv[i+1];
+            outputDirPath += "_out.jpg";
         }
         else {
             std::cerr << "Invalid argument: " << argv[i] << "!\n";
@@ -32,7 +33,7 @@ int main(int argc, char** argv) {
     else 
         return EXIT_FAILURE;
 
-    std::cout << "Done. Check result at: " << outputDirPath  << "\n";
+    std::cout << "Done. Check result in: " << outputDirPath  << "\n";
 
     return EXIT_SUCCESS;
 }

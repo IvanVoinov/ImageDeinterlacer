@@ -7,8 +7,8 @@
 
 class CFileManager {
 private:
-
-    bool m_IsFilesSuccessfullyOpened;
+    std::string m_InputPath;
+    std::string m_OutputPath;
 
     using deleted_unique_ptr = std::unique_ptr<FILE, std::function<void(FILE*)>>;
     deleted_unique_ptr m_InputFile;
@@ -21,9 +21,7 @@ public:
 
     FILE* getInputFile();
     FILE* getOutputFile();
-    constexpr bool isFilesSuccessfullyOpened() noexcept {
-        return m_IsFilesSuccessfullyOpened;
-    }   
+    bool isFilesSuccessfullyOpened();
 };
 
 #endif // CFILE_MANAGER_H
