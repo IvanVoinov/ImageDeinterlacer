@@ -3,10 +3,14 @@ It is using C++14 and std library + and latest version of libjpeg library(downlo
 
 Usage:
 1. Open terminal inside project and run next commands:
+   
   1.1.cmake -S. -B build
+   
   1.2. cd build && make
-2. Library will be donwloaded and compilation done.
-3. Run application: cd ../ && ./build/picture_deinterlacer -i resource/interlaced.jpg -o ./
+  
+3. Library will be donwloaded and compilation done.
+   
+5. Run application: cd ../ && ./build/picture_deinterlacer -i resource/interlaced.jpg -o ./
 
 Application tested on Unix-based system(PopOs). Windows not probably supported yet.
 
