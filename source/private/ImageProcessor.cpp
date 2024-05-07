@@ -3,10 +3,10 @@
 #include "../ImageProcessor.h"
 
 CImageProcessor::CImageProcessor() noexcept
-    : m_DecompressObj{jpeg_decompress_struct()}
-    , m_CompressObj{jpeg_compress_struct()}
-    , m_ErrorMng{jpeg_error_mgr()}
-    , m_Buffer{nullptr}
+    : m_DecompressObj()
+    , m_CompressObj()
+    , m_ErrorMng()
+    , m_Buffer(nullptr)
 {
 }
 
@@ -60,11 +60,11 @@ void CImageProcessor::initAndWriteImage(FILE* const result) {
     }
 }
 
-void CImageProcessor::runDeinterlaceProcess(FILE* const source, FILE* const result) {
+void CImageProcessor::runDeinterlaceProcess(FILE* const source, FILE* const result, int intensity) {
 
     initAndReadImage(source);
 
-    executeDeinterlaceBlending();
+    executeDeinterlaceBlending(intensity);
 
     initAndWriteImage(result);
 
@@ -79,12 +79,12 @@ void CImageProcessor::finishAndDestroy() {
     jpeg_destroy_decompress(&m_DecompressObj);
 }
 
-void CImageProcessor::executeDeinterlaceBlending()
+void CImageProcessor::executeDeinterlaceBlending(int intensity)
 {
     // Iterate over the image pixels and apply the "Blending" algorithm
     int i = 0;
     JDIMENSION totalWidth = m_DecompressObj.output_width * m_DecompressObj.output_components;
-    while (i < 2) {
+    while (i < intensity) {
         for (JDIMENSION y = 1; y < m_DecompressObj.output_height; ++y) {
             for (JDIMENSION x = 0; x < totalWidth; ++x) {
                 m_Buffer[y][x] = (m_Buffer[y][x] + m_Buffer[y - 1][x]) / 2;

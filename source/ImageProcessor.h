@@ -16,12 +16,12 @@ private:
     void initAndReadImage(FILE* const source);
     void initAndWriteImage(FILE* const result);
     void finishAndDestroy();
-    void executeDeinterlaceBlending();
+    void executeDeinterlaceBlending(int intensity);
 
 public:
     CImageProcessor() noexcept;
     ~CImageProcessor() {};
-    void runDeinterlaceProcess(FILE* const source, FILE* const result);
+    void runDeinterlaceProcess(FILE* const source, FILE* const result, int intensity = 2);
 };
 
 #endif // CIMAGE_PROCESSOR_H
