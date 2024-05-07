@@ -1,10 +1,10 @@
 Simple console application to deintrlace image.
-It is using C++14 and std library + and latest version of libjpeg library(downloaded during cmake build).
+It is using C++14 and std library + and latest version of libjpeg library(downloading during cmake build).
 
 Usage:
 1. Open terminal inside project and run next commands:
-  1.1. mkdir build && cd build
-  1.2. cmake --build ./
+  1.1.cmake -S. -B build
+  1.2. cd build && make
 2. Library will be donwloaded and compilation done.
 3. Run application: cd ../ && ./build/picture_deinterlacer -i resource/interlaced.jpg -o ./
 
@@ -13,4 +13,5 @@ Application tested on Unix-based system(PopOs). Windows not probably supported y
 Approximate application execution time is 35ms for image from the project(/resource/interlaced.jpg).
 
 TODOs:
-1. Add thread pool to paralize image processing.
+1.Ability to process several files per one cycle;
+2. Add thread pool to parallelize image processing.
