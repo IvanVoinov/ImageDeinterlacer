@@ -85,11 +85,24 @@ void CImageProcessor::executeDeinterlaceBlending(int intensity)
     int i = 0;
     JDIMENSION totalWidth = m_DecompressObj.output_width * m_DecompressObj.output_components;
     while (i < intensity) {
-        for (JDIMENSION y = 1; y < m_DecompressObj.output_height; ++y) {
-            for (JDIMENSION x = 0; x < totalWidth; ++x) {
-                m_Buffer[y][x] = (m_Buffer[y][x] + m_Buffer[y - 1][x]) / 2;
+        auto res = (i % 2) == 0;
+        if (i % 2 == 0) {
+            // move from top to bottom
+            for (JDIMENSION y = 1; y < m_DecompressObj.output_height; ++y) {
+                for (JDIMENSION x = 0; x < totalWidth; ++x) {
+                    m_Buffer[y][x] = (m_Buffer[y][x] + m_Buffer[y - 1][x]) / 2;
+                }
             }
         }
+        else {
+            // moves from bottom to top, helps to improve quality
+            for (JDIMENSION y = m_DecompressObj.output_height - 1; y >= 1; --y) {
+                for (JDIMENSION x = 0; x < totalWidth; ++x) {
+                    m_Buffer[y][x] = (m_Buffer[y][x] + m_Buffer[y - 1][x]) / 2;
+                }
+            }
+        }
+
         ++i;
     }
 }
